@@ -15,9 +15,9 @@
             <div class="login-title">{{ userName }}</div>
             <div class="inputs">
               <div class="email-text">Email</div>
-              <form-input></form-input>
+              <form-input placeholder="Email"></form-input>
               <div class="email-text">Номер телефона</div>
-              <form-input></form-input>
+              <form-input placeholder="Телефон"></form-input>
             </div>
             <SaveBtn>Сохранить</SaveBtn>
           </div>
@@ -209,7 +209,6 @@ router-link a {
   }
 
   .menu-container {
-    margin-left: 180px;
   }
 
   .nav-link span {
@@ -260,7 +259,6 @@ router-link a {
   }
 
   .menu-container {
-    margin-left: 80px;
   }
 
   .logo-img {

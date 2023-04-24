@@ -50,10 +50,10 @@ const router = createRouter({
           path: "/",
           name: "Profile",
           component: Profile,
-          meta: {
-            requiresAuth: true,
-            roles: ["parent", "teacher", "pupil"],
-          },
+          // meta: {
+          //   requiresAuth: true,
+          //   roles: ["parent", "teacher", "pupil",""],
+          // },
           beforeEnter: [AuthGuard],
         },
         {
@@ -87,7 +87,7 @@ const router = createRouter({
           component: Work,
           meta: {
             requiresAuth: true,
-            roles: ["teacher"],
+            // roles: ["teacher"],
           },
           beforeEnter: [AuthGuard],
         },
@@ -97,7 +97,7 @@ const router = createRouter({
           component: MyChilds,
           meta: {
             requiresAuth: true,
-            roles: ["parent"],
+            // roles: ["parent"],
           },
           beforeEnter: [AuthGuard],
         },
@@ -107,7 +107,7 @@ const router = createRouter({
           component: History,
           meta: {
             requiresAuth: true,
-            roles: ["parent", "pupil", "teacher"],
+            // roles: ["parent", "pupil", "teacher"],
           },
           beforeEnter: [AuthGuard],
         },

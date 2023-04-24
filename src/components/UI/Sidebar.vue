@@ -158,7 +158,7 @@ export default {
   overflow-x: hidden;
   min-width: 15%;
   padding: 25px;
-  height: 100vh;
+  height: 100%;
 }
 
 router-link a {
