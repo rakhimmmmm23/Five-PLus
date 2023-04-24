@@ -3,7 +3,7 @@
     <div class="login-container">
       <router-link to="/">
         <div class="logo">
-          <img src="@/assets/img/logo.png" class="logo-img" alt="" />
+        <img src="@/assets/img/logo.png" class="logo-img" alt="" /> 
         </div>
       </router-link>
       <div class="login-title">Авторизация</div>

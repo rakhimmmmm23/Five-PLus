@@ -14,6 +14,9 @@
         <form-input v-model="form.password" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
       </div>
       <save-btn @click="submitHandler">Создать</save-btn>
+      <router-link to="/login">
+        <div href="#" class="have-account">Уже есть аккаунт?</div>
+      </router-link>
     </div>
   </div>
 </template>

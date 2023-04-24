@@ -7,7 +7,7 @@
           <div class="login-container">
             <div class="profile-img">
               <img
-                src="@/assets/img/profileimg.png"
+                src="@/assets/img/default.jpg"
                 class="profile-img"
                 alt=""
               />
@@ -35,7 +35,7 @@ import { mapState } from "pinia";
 export default {
   data() {
     return {
-      userName: "Вася пупкин",
+      userName: "",
       email: "",
       phone: "",
     };

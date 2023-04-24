@@ -21,7 +21,6 @@ export default {
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #FFFFFF;
-    border: #E1D4D4 solid 1px;
     margin-top: 37px;
     width: 20%;
     padding: 10px 1px;
