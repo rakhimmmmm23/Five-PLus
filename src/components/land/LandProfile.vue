@@ -12,10 +12,10 @@
                 alt=""
               />
             </div>
-            <div class="login-title">{{ userName }}</div>
+            <div class="login-title">{{ user.user_name }}</div>
             <div class="inputs">
               <div class="email-text">Email</div>
-              <form-input placeholder="Email"></form-input>
+              <form-input :value="user.email" placeholder="Email"></form-input>
               <div class="email-text">Номер телефона</div>
               <form-input placeholder="Телефон"></form-input>
             </div>
@@ -29,6 +29,9 @@
 <script>
 import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import FormInput from "@/components/form/Forminput.vue";
+import { useAuthStore } from "@/stores/auth/AuthStore";
+
+import { mapState } from "pinia";
 export default {
   data() {
     return {
@@ -41,6 +44,9 @@ export default {
     FormInput,
     SaveBtn,
   },
+  computed:{
+    ...mapState(useAuthStore,["user"])
+  }
 };
 </script>
 <style scoped>
