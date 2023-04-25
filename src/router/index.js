@@ -10,7 +10,7 @@ import History from "../views/History.vue";
 import Support from "../views/Support.vue";
 import Teacher from "../views/Teacher.vue";
 import Register from "../views/Register.vue";
-
+import PageNotFound from '@/views/NotFound.vue'
 const AuthGuard = (to, from, next) => {
   const authStore = useAuthStore();
   const role = authStore.role;
@@ -118,6 +118,7 @@ const router = createRouter({
         },
       ],
     },
+    { path: "/:catchAll(.*)", component: PageNotFound },
     {
       path: "/login",
       name: "login",
