@@ -31,6 +31,7 @@ import { useAuthStore } from "@/stores/auth/AuthStore";
 import ModalWindow from "@/components/modals/ConfirmModal.vue";
 import { useProfileStore } from "@/stores/profile/ProfileStore.js";
 import { mapState } from "pinia";
+import { apiClient } from '@/plugins/apiClient';
 
 export default {
   setup() {
@@ -59,10 +60,10 @@ export default {
   methods: {
     async changeMail() {
       try {
-        console.log('email', this.email);
+        apiClient.get('/self/confirm/send?thru=email')
+        this.$refs.modal.show = true;
         await this.profileStore.profile(this.email);
         this.user.email = this.email
-        // this.$refs.modal.show = true;
       } catch (error) {
         console.log("Login submitHandler error :>> ", error);
       }

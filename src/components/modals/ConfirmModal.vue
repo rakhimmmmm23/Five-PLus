@@ -7,11 +7,11 @@
       </slot>
       <slot name="body" class="body">
         <div class="body-title">Чтобы внести изменения в профиль введите код подтверждения, который был выслан на ваш email</div>
-        <FormInput placeholder="Код"></FormInput>
+        <FormInput v-model.number="code" placeholder="Код"></FormInput>
       </slot>
       <slot name="footer">
         <div class="modal-footer">
-          <GradientBtn class="modal-footer__button" @click="closeModal">Я подтверждаю</GradientBtn>
+          <GradientBtn class="modal-footer__button" @click="confirmCode">Я подтверждаю</GradientBtn>
         </div>
       </slot>
     </div>
@@ -21,17 +21,32 @@
 <script>
 import FormInput from "@/components/form/FormInput.vue";
 import GradientBtn from '@/components/Buttons/GradientBtn.vue'
+import { apiClient } from '@/plugins/apiClient';
+
 export default {
   name: "ModalWindow",
   data: function () {
     return {
       show: false,
+      code:'',
     };
   },
   methods: {
-    closeModal: function () {
-      this.show = false;
+   async confirmCode () {
+      try {
+      await apiClient.get(`/self/confirm/token?code=${this.code}&for=universal`)
+        // if (res.code === 200){
+        //   this.show = false;
+        // }
+      } catch (error) {
+        console.log("Login submitHandler error :>> ", error);
+      }
     },
+   closeModal () {
+    this.show = false
+
+    },
+
   },
   components: {
     FormInput,GradientBtn

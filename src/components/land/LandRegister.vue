@@ -35,10 +35,10 @@ export default {
   data() {
     return {
       form: {
-        userName:'Fr1end_one',
-        name:'Jurabek',
-        password:'RandomPassword123',
-        email:'jorabek.torayev.2000@gmail.com'
+        userName:'',
+        name:'',
+        password:'',
+        email:''
       }
     };
   },

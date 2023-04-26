@@ -18,5 +18,7 @@ export const useProfileStore = defineStore({
           return Promise.reject(error)
         }
       },
+    
+      },
   },
-});
+);
