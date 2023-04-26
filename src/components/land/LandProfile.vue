@@ -63,7 +63,7 @@ export default {
         apiClient.get('/self/confirm/send?thru=email')
         this.$refs.modal.show = true;
         await this.profileStore.profile(this.email);
-        this.user.email = this.email
+        // this.user.email = this.email
       } catch (error) {
         console.log("Login submitHandler error :>> ", error);
       }

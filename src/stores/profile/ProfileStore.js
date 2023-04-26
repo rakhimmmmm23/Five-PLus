@@ -12,8 +12,8 @@ export const useProfileStore = defineStore({
                 new_value: email,
                 operation: "change"
           }])
+          console.log(data.res);
           return data
-          console.log(data);
         } catch (error) {
           return Promise.reject(error)
         }

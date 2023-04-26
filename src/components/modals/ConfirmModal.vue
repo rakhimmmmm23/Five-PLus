@@ -22,8 +22,18 @@
 import FormInput from "@/components/form/FormInput.vue";
 import GradientBtn from '@/components/Buttons/GradientBtn.vue'
 import { apiClient } from '@/plugins/apiClient';
+import { useAuthStore } from "@/stores/auth/AuthStore";
+import { mapState } from 'pinia';
+
 
 export default {
+  setup() {
+    const authStore = useAuthStore()
+
+    return {
+      authStore
+    }
+  },
   name: "ModalWindow",
   data: function () {
     return {
@@ -31,13 +41,18 @@ export default {
       code:'',
     };
   },
+  computed: {
+    ...mapState(useAuthStore, ["user"]),
+  },
   methods: {
    async confirmCode () {
       try {
-      await apiClient.get(`/self/confirm/token?code=${this.code}&for=universal`)
-        // if (res.code === 200){
-        //   this.show = false;
-        // }
+      const res = await apiClient.get(`/self/confirm/token?code=${this.code}&for=universal`)
+      if(res.data.code !== 200) return
+        const data = await this.authStore.getSelfInfo()
+        this.user.email = data.email
+        this.show = false
+    
       } catch (error) {
         console.log("Login submitHandler error :>> ", error);
       }
