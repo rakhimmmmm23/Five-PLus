@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import FormInput from "@/components/form/FormInput.vue";
+import FormInput from "@/components/form/Forminput.vue";
 import GradientBtn from '@/components/Buttons/GradientBtn.vue'
 import { apiClient } from '@/plugins/apiClient';
 import { useAuthStore } from "@/stores/auth/AuthStore";
