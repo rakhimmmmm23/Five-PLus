@@ -3,23 +3,21 @@
     <header-container>
       <div class="menu-container">
         <sidebar></sidebar>
-          <div class="login">
+        <div class="login">
+          <modal-window ref="modal"></modal-window>
+
           <div class="login-container">
             <div class="profile-img">
-              <img
-                src="@/assets/img/default.jpg"
-                class="profile-img"
-                alt=""
-              />
+              <img src="@/assets/img/default.jpg" class="profile-img" alt="" />
             </div>
             <div class="login-title">{{ user.user_name }}</div>
             <div class="inputs">
               <div class="email-text">Email</div>
-              <form-input :value="user.email" placeholder="Email"></form-input>
+              <form-input :value="user.email" v-model="email" placeholder="Email"></form-input>
               <div class="email-text">Номер телефона</div>
               <form-input placeholder="Телефон"></form-input>
             </div>
-            <SaveBtn>Сохранить</SaveBtn>
+            <SaveBtn @click="changeMail"> Сохранить</SaveBtn>
           </div>
         </div>
       </div>
@@ -30,23 +28,46 @@
 import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import FormInput from "@/components/form/Forminput.vue";
 import { useAuthStore } from "@/stores/auth/AuthStore";
-
+import ModalWindow from "@/components/modals/ConfirmModal.vue";
+import { useProfileStore } from "@/stores/profile/ProfileStore.js";
 import { mapState } from "pinia";
+
 export default {
+  setup() {
+    const profileStore = useProfileStore()
+
+    return {
+      profileStore
+    }
+  },
   data() {
     return {
-      userName: "",
       email: "",
-      phone: "",
     };
   },
+
   components: {
     FormInput,
     SaveBtn,
+    ModalWindow,
   },
-  computed:{
-    ...mapState(useAuthStore,["user"])
-  }
+  computed: {
+    ...mapState(useAuthStore, ["user"]),
+
+  },
+
+  methods: {
+    async changeMail() {
+      try {
+        console.log('email', this.email);
+        await this.profileStore.profile(this.email);
+        this.user.email = this.email
+        // this.$refs.modal.show = true;
+      } catch (error) {
+        console.log("Login submitHandler error :>> ", error);
+      }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -59,7 +80,6 @@ body {
   background: rgb(17, 15, 22);
   margin: auto;
   width: 70%;
-  padding-top: 100px;
 }
 
 .menu-container {
@@ -94,8 +114,6 @@ body {
   align-items: center;
   margin-top: 15px;
 }
-
-
 
 .login-input {
   margin-top: 15px;
@@ -311,10 +329,6 @@ router-link a {
 }
 
 @media (max-width: 400px) {
-  .menu-container {
-    margin-left: 60px;
-  }
-
   .work-title {
     font-size: 20px;
   }

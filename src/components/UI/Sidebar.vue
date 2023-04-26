@@ -107,43 +107,8 @@ export default {
   margin-left: 15px;
 }
 
-.nav-link:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  display: inline-block;
-  height: 1em;
-  width: 2%;
-  border-bottom: 1px solid;
-  margin-top: 10px;
-  opacity: 0;
-  -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
-  transition: opacity 0.35s, transform 0.35s;
-  -webkit-transform: scale(0, 1);
-  transform: scale(0, 1);
-}
 
-.nav-link:hover:after {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  transform: scale(1);
-}
 
-.nav-link img:after {
-  background-color: #f66d52;
-  display: block;
-  content: "";
-  height: 2px;
-  width: 0%;
-  -webkit-transition: width 0.3s ease-in-out;
-  -moz--transition: width 0.3s ease-in-out;
-  transition: width 0.3s ease-in-out;
-}
-
-.nav-link img:hover:after,
-.nav-link img:focus:after {
-  width: 100%;
-}
 
 .nav-link img {
   width: 30px;

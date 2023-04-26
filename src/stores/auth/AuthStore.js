@@ -50,6 +50,7 @@ export const useAuthStore = defineStore({
       } catch (error) {
         return Promise.reject(error)
       }
-    }
+    },
+
   },
 });
