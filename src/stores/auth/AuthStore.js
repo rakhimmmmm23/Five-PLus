@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia';
-import { apiClient } from '@/plugins/apiClient';
+import { defineStore } from "pinia";
+import { apiClient } from "@/plugins/apiClient";
 
 export const useAuthStore = defineStore({
-  id: 'auth',
+  id: "auth",
   state: () => ({
     user: null,
     role: null,
@@ -16,41 +16,58 @@ export const useAuthStore = defineStore({
     },
     async register({ userName, name, email, password }) {
       try {
-        const { data } = await apiClient.post('/auth/reg', {
-          user_name: userName,
-          name,
-          email,
-          password,
-        })
+        const { data } = await apiClient.post(
+          "/auth/reg",
+         
+          {
+            user_name: userName,
+            name,
+            email,
+            password,
+          },
+          {
+            headers: {
+              withCredentials: false,
+            },
+          }
+        );
 
-        return data
+        return data;
       } catch (error) {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
     },
-    async login({username, password}) {
+    async login({ username, password }) {
       try {
-        const { data } = await apiClient.post('/auth/login', {
-          login_by: 'username',
-          login: username,
-          password,
-        })
-
-        return data
+        const { data } = await apiClient.post(
+          "/auth/login",
+       
+          {
+            login_by: "username",
+            login: username,
+            password,
+          },
+          {
+            headers: {
+              withCredentials: false,
+            },
+          }
+         
+        );
+        return data;
       } catch (error) {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
     },
     async getSelfInfo() {
       try {
-        const { data } = await apiClient('/self')
-        console.log('data :>> ', data);
-        this.setUser(data)
-        return data
+        const { data } = await apiClient("/self");
+        console.log("data :>> ", data);
+        this.setUser(data);
+        return data;
       } catch (error) {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
     },
-
   },
 });
