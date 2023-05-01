@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  vue-app:
+    build: .
+    image: vue-app
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vue-app.rule=Host(`fiveplus.online`)"
+      - "traefik.http.routers.vue-app.entrypoints=https"
+      - "traefik.http.routers.vue-app.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.vue-app.service=vue-app"
+      - "traefik.http.services.vue-app.loadbalancer.server.port=80"
+
+networks:
+  default:
+    external:
+      name: web
