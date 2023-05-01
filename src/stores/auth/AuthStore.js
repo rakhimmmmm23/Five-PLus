@@ -27,7 +27,7 @@ export const useAuthStore = defineStore({
           },
           {
             headers: {
-              withCredentials: false,
+              withCredentials: true,
             },
           }
         );
@@ -49,7 +49,7 @@ export const useAuthStore = defineStore({
           },
           {
             headers: {
-              withCredentials: false,
+              withCredentials: true,
             },
           }
          
