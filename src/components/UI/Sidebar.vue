@@ -80,7 +80,6 @@ export default {
   name: "sidebar",
   data() {
     return {
-      role: "pupil",
     };
   },
 };
