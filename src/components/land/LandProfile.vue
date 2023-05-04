@@ -11,6 +11,24 @@
               <img src="@/assets/img/default.jpg" class="profile-img" alt="" />
             </div>
             <div class="login-title">{{ user.user_name }}</div>
+            <div class="user-info">
+              <div class="user-info__item" v-if="user.user_type === 'General'">
+                <p>Класс обучения:</p>
+                <p>7</p>
+              </div>
+              <div class="user-info__teacher-item" v-else-if="user.user_type === 'Child'">
+                <div>
+                  <p>Классы преподавания:</p>
+                  <p>5</p>
+                </div>
+                <div>
+                  <p>Предметы преподавания:</p>
+                  <p>История</p>
+                </div>
+              </div>
+              <div class="user-info__item">
+              </div>
+            </div>
             <div class="inputs">
               <div class="email-text">Email</div>
               <form-input :value="user.email" v-model="email" placeholder="Email"></form-input>
@@ -71,7 +89,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 body {
   background: rgb(17, 15, 22);
   height: 100vh;
@@ -204,6 +222,29 @@ router-link a {
 
 .have-account:hover {
   color: #b2b8bd;
+}
+
+.user-info {
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+
+  &__item{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+  }
+
+  &__teacher-item {
+    margin: 5px 0;
+    div {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5px;
+      gap: 10px;
+    }
+  }
 }
 
 @media (max-width: 2560px) {

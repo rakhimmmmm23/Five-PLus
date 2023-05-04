@@ -5,7 +5,6 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     user: null,
-    role: null,
   }),
   actions: {
     setUser(user) {
