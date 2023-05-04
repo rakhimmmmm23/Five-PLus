@@ -13,7 +13,7 @@ import Register from "../views/Register.vue";
 import PageNotFound from '@/views/NotFound.vue'
 const AuthGuard = (to, from, next) => {
   const authStore = useAuthStore();
-  const role = authStore.role;
+  const role = authStore.user.user_type;
   const requiredRoles = to.meta.roles;
 
   if (!authStore.user) {
@@ -50,36 +50,57 @@ const router = createRouter({
           path: "/",
           name: "Profile",
           component: Profile,
-          // meta: {
-          //   requiresAuth: true,
-          //   roles: ["parent", "teacher", "pupil",""],
-          // },
+          meta: {
+            requiresAuth: true,
+            roles: ["Child", "Teacher", "General"],
+          },
           beforeEnter: [AuthGuard],
         },
         {
           path: "/balance",
           name: "Balance",
+          meta: {
+            requiresAuth: true,
+            roles: ["General"],
+          },
+          beforeEnter: [AuthGuard],
           component: import("@/views/Balance.vue"),
         },
         {
           path: "/role",
           name: "Role",
+          meta: {
+            requiresAuth: true,
+            roles: ["Admin"],
+          },
+          beforeEnter: [AuthGuard],
           component: import("@/views/Role.vue"),
         },
         {
           path: "/chat",
           name: "Chat",
+          meta: {
+            requiresAuth: true,
+            roles: ["Child", "Teacher"],
+          },
+          beforeEnter: [AuthGuard],
           component: import("@/views/Chat.vue"),
         },
         {
           path: "/settings",
           name: "Setting",
+          meta: {
+            requiresAuth: true,
+            roles: ["Admin"],
+          },
+          beforeEnter: [AuthGuard],
           component: import('@/views/Settings.vue'),
         },
         {
           path: "/teacher",
           name: "Teacher",
           component: Teacher,
+          beforeEnter: [AuthGuard],
         },
         {
           path: "/work",
@@ -87,7 +108,7 @@ const router = createRouter({
           component: Work,
           meta: {
             requiresAuth: true,
-            // roles: ["teacher"],
+            roles: ["Teacher"],
           },
           beforeEnter: [AuthGuard],
         },
@@ -97,7 +118,7 @@ const router = createRouter({
           component: MyChilds,
           meta: {
             requiresAuth: true,
-            // roles: ["parent"],
+            roles: ["General"],
           },
           beforeEnter: [AuthGuard],
         },
@@ -107,7 +128,7 @@ const router = createRouter({
           component: History,
           meta: {
             requiresAuth: true,
-            // roles: ["parent", "pupil", "teacher"],
+            roles: ["General", "Teacher", "Child"],
           },
           beforeEnter: [AuthGuard],
         },
@@ -115,6 +136,11 @@ const router = createRouter({
           path: "/support",
           name: "Support",
           component: Support,
+          meta: {
+            requiresAuth: true,
+            roles: ["General", "Child", "Teacher"],
+          },
+          beforeEnter: [AuthGuard],
         },
       ],
     },
