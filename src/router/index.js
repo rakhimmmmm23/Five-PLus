@@ -25,6 +25,19 @@ const AuthGuard = (to, from, next) => {
   }
 }
 
+const DefaultlayoutMiddleware = async (_to, _from, next) => {
+  const authStore = useAuthStore()
+  if (!authStore.user) {
+    try {
+      await authStore.getSelfInfo()
+    } catch (error) {
+      next({ name: 'login' })
+    }
+  }
+
+  next()
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,19 +45,7 @@ const router = createRouter({
       path: "/",
       name: "default-layout",
       component: DefaultLayout,
-      beforeEnter: async (_to, _from, next) => {
-        const authStore = useAuthStore()
-
-        if (!authStore.user) {
-          try {
-            await authStore.getSelfInfo()
-          } catch (error) {
-            next({ name: 'login' })
-          }
-        }
-
-        next()
-      },
+      beforeEnter: DefaultlayoutMiddleware,
       children: [
         {
           path: "/",

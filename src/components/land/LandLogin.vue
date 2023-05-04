@@ -45,8 +45,13 @@ export default {
   methods: {
     async submitHandler() {
       try {
-        const res = await this.authStore.login(this.form)
-        if (res.code !== 200) return
+        await this.authStore.login(this.form)
+        const user = await this.authStore.getSelfInfo()
+
+        if (user.user_type === 'Admin') {
+          return this.$router.push({ name: 'Role' })
+        }
+
         this.$router.push({ name: "Profile" })
       } catch (error) {
         console.log('Login submitHandler error :>> ', error);
