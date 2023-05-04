@@ -12,11 +12,11 @@
             </div>
             <div class="login-title">{{ user.user_name }}</div>
             <div class="user-info">
-              <div class="user-info__item" v-if="user.user_type === 'General'">
+              <div class="user-info__item" v-if="user.user_type === 'Child'">
                 <p>Класс обучения:</p>
                 <p>7</p>
               </div>
-              <div class="user-info__teacher-item" v-else-if="user.user_type === 'Child'">
+              <div class="user-info__teacher-item" v-else-if="user.user_type === 'Teacher'">
                 <div>
                   <p>Классы преподавания:</p>
                   <p>5</p>
