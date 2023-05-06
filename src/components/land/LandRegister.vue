@@ -9,32 +9,17 @@
       <div class="login-title">Cоздайте аккаунт</div>
 
       <div class="inputs">
-
-        <form-input
-          v-model="form.userName"
-          placeholder="ВВЕДИТЕ USERNAME"
-          type="text"
-   
-        ></form-input>
-        <div class="red-alert" v-if="form.userName.length < 4">Юзернейм не менее 4 символов!</div>
-        <form-input
-          v-model="form.name"
-          placeholder="ВВЕДИТЕ ИМЯ"
-          type="text"
-        ></form-input>
-        <div class="red-alert" v-if="form.name.length < 4">Имя не менее 4 символов!</div>
-        <form-input
-          v-model="form.email"
-          placeholder="ВВЕДИТЕ EMAIL"
-          type="email"
-        ></form-input>
-        <form-input
-          v-model="form.password"
-          placeholder="ВВЕДИТЕ ПАРОЛЬ"
-          type="password"
-        ></form-input>
-        <div class="red-alert" v-if="form.password.length < 7">Пароль не менее 7 символов!</div>
-
+      
+        <form-input v-model="form.userName" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
+        <div class="red-alert" v-if="form.userName.length < 4">
+          * Юзернейм не менее 4 символов!
+        </div>
+        <form-input v-model="form.name" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
+        <form-input v-model="form.email" placeholder="ВВЕДИТЕ EMAIL" type="email"></form-input>
+        <form-input v-model="form.password" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
+        <div class="red-alert" v-if="form.password.length < 7">
+          * Пароль не менее 7 символов!
+        </div>
       </div>
       <save-btn @click="submitHandler">Создать</save-btn>
 
@@ -52,17 +37,10 @@ import "vue3-toastify/dist/index.css";
 import { useAuthStore } from "@/stores/auth/AuthStore";
 export default {
   setup() {
-    const notify = () => {
-      toast.success("Успешно", {
-        autoClose: 1000,
-        theme: "dark",
-      }); // ToastOptions
-    };
     const authStore = useAuthStore();
 
     return {
       authStore,
-      notify,
     };
   },
   data() {
@@ -82,11 +60,16 @@ export default {
   methods: {
     async submitHandler() {
       console.log("in");
+
       try {
         console.log("authStore :>> ", this.authStore);
-        const res = await this.authStore.register(this.form);
+        const res = await this.authStore.register(this.form);   
       } catch (error) {
         console.log("Register submitHandler error :>> ", error);
+        return toast.error("Ошибка", {
+            autoClose: 1000,
+            theme: "dark",
+          });
       }
     },
   },
@@ -99,13 +82,13 @@ export default {
   box-sizing: border-box;
 }
 
-.red-alert{
+.red-alert {
   color: #9b3e3e;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  margin-top: 20px;
+  font-size: 14px;  
+  display: flex;
+  justify-content: end;
 }
+
 .login {
   background: rgb(17, 15, 22);
   height: 100vh;
@@ -118,7 +101,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   width: 90%;
   position: absolute;
   top: 50%;
@@ -140,7 +122,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 45%;
-  align-items: center;
 }
 
 .login-input {
@@ -151,28 +132,15 @@ export default {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  text-align: center;
   line-height: 24px;
   background-color: rgb(36, 34, 40);
-  width: 90%;
+  width: 100%;
   transition: width 0.3s ease-in;
   color: #fff;
 }
 
-.login-input[type="email"]:focus {
-  width: 100%;
-}
-
-.login-input[type="text"]:focus {
-  width: 100%;
-}
-
 .login-input[type="text"] {
   font-weight: 700;
-}
-
-.login-input[type="password"]:focus {
-  width: 100%;
 }
 
 .login-input[type="email"] {
