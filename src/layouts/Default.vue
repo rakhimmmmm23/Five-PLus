@@ -1,6 +1,6 @@
 <template>
     <div class="default-layout">
-        <router-view v-if="!isLoading" />
+        <router-view  />
     </div>
 </template>
 

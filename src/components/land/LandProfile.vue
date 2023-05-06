@@ -150,13 +150,7 @@ body {
   color: #fff;
 }
 
-.login-input[type="email"]:focus {
-  width: 100%;
-}
 
-.login-input[type="tel"]:focus {
-  width: 100%;
-}
 
 .login-input[type="email"] {
   font-weight: 700;
