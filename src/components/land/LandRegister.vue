@@ -7,13 +7,37 @@
         </div>
       </router-link>
       <div class="login-title">Cоздайте аккаунт</div>
+
       <div class="inputs">
-        <form-input v-model="form.userName" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
-        <form-input v-model="form.name" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
-        <form-input v-model="form.email" placeholder="ВВЕДИТЕ EMAIL" type="email"></form-input>
-        <form-input v-model="form.password" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
+
+        <form-input
+          v-model="form.userName"
+          placeholder="ВВЕДИТЕ USERNAME"
+          type="text"
+   
+        ></form-input>
+        <div class="red-alert" v-if="form.userName.length < 4">Юзернейм не менее 4 символов!</div>
+        <form-input
+          v-model="form.name"
+          placeholder="ВВЕДИТЕ ИМЯ"
+          type="text"
+        ></form-input>
+        <div class="red-alert" v-if="form.name.length < 4">Имя не менее 4 символов!</div>
+        <form-input
+          v-model="form.email"
+          placeholder="ВВЕДИТЕ EMAIL"
+          type="email"
+        ></form-input>
+        <form-input
+          v-model="form.password"
+          placeholder="ВВЕДИТЕ ПАРОЛЬ"
+          type="password"
+        ></form-input>
+        <div class="red-alert" v-if="form.password.length < 7">Пароль не менее 7 символов!</div>
+
       </div>
       <save-btn @click="submitHandler">Создать</save-btn>
+
       <router-link to="/login">
         <div href="#" class="have-account">Уже есть аккаунт?</div>
       </router-link>
@@ -23,23 +47,32 @@
 <script>
 import FormInput from "@/components/form/Forminput.vue";
 import SaveBtn from "@/components/Buttons/SaveBtn.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { useAuthStore } from "@/stores/auth/AuthStore";
 export default {
   setup() {
-    const authStore = useAuthStore()
+    const notify = () => {
+      toast.success("Успешно", {
+        autoClose: 1000,
+        theme: "dark",
+      }); // ToastOptions
+    };
+    const authStore = useAuthStore();
 
     return {
-      authStore
-    }
+      authStore,
+      notify,
+    };
   },
   data() {
     return {
       form: {
-        userName:'',
-        name:'',
-        password:'',
-        email:''
-      }
+        userName: "",
+        name: "",
+        password: "",
+        email: "",
+      },
     };
   },
   components: {
@@ -48,15 +81,15 @@ export default {
   },
   methods: {
     async submitHandler() {
-      console.log('in');
+      console.log("in");
       try {
-        console.log('authStore :>> ', this.authStore);
-        const res = await this.authStore.register(this.form)
+        console.log("authStore :>> ", this.authStore);
+        const res = await this.authStore.register(this.form);
       } catch (error) {
-        console.log('Register submitHandler error :>> ', error);
+        console.log("Register submitHandler error :>> ", error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -66,6 +99,13 @@ export default {
   box-sizing: border-box;
 }
 
+.red-alert{
+  color: #9b3e3e;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 20px;
+}
 .login {
   background: rgb(17, 15, 22);
   height: 100vh;

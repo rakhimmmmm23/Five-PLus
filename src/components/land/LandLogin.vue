@@ -120,13 +120,6 @@ export default {
   color: #fff;
 }
 
-.login-input[type="email"]:focus {
-  width: 100%;
-}
-
-.login-input[type="password"]:focus {
-  width: 100%;
-}
 
 .login-input[type="email"] {
   font-weight: 700;
