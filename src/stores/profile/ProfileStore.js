@@ -4,7 +4,7 @@ import { apiClient } from '@/plugins/apiClient';
 export const useProfileStore = defineStore({
   id: 'profile',
   actions: {
-    async profile( email ) {
+    async updateProfile( email ) {
         console.log('store email', email)
         try {
           const data  = await apiClient.put('/self', [{
