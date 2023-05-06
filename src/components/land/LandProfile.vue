@@ -4,7 +4,7 @@
       <div class="menu-container">
         <sidebar></sidebar>
         <div class="login">
-          <modal-window ref="modal"></modal-window>
+          <modal-window ref="modal" @user-updated="init"></modal-window>
 
           <div class="login-container">
             <div class="profile-img">
@@ -31,7 +31,7 @@
             </div>
             <div class="inputs">
               <div class="email-text">Email</div>
-              <form-input :value="user.email" v-model="email" placeholder="Email"></form-input>
+              <form-input v-model="email" :placeholder="user.email"></form-input>
               <div class="email-text">Номер телефона</div>
               <form-input placeholder="Телефон"></form-input>
             </div>
@@ -54,7 +54,6 @@ import { apiClient } from '@/plugins/apiClient';
 export default {
   setup() {
     const profileStore = useProfileStore()
-
     return {
       profileStore
     }
@@ -72,21 +71,28 @@ export default {
   },
   computed: {
     ...mapState(useAuthStore, ["user"]),
-
   },
 
   methods: {
     async changeMail() {
+      console.log(this.email)
       try {
-        apiClient.get('/self/confirm/send?thru=email')
-        this.$refs.modal.show = true;
-        await this.profileStore.profile(this.email);
-        // this.user.email = this.email
+        if(this.user.email !== this.email) {
+          apiClient.get('/self/confirm/send?thru=email')
+          this.$refs.modal.show = true;
+        }
       } catch (error) {
         console.log("Login submitHandler error :>> ", error);
       }
     },
+    init() {
+      console.log('asasdasd')
+      this.email = this.user.email
+    }
   },
+  beforeMount() {
+    this.init()
+  }
 };
 </script>
 <style lang="scss" scoped>
