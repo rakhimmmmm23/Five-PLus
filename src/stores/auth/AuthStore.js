@@ -36,7 +36,6 @@ export const useAuthStore = defineStore({
         return Promise.reject(error);
       }
     },
-  
     async login({ username, password }) {
       try {
         const { data } = await apiClient.post(
@@ -59,22 +58,22 @@ export const useAuthStore = defineStore({
         return Promise.reject(error);
       }
     },
-    async getSelfInfo() {
-      try {
-        const { data } = await apiClient("/self");
-        console.log("data :>> ", data);
-        this.setUser(data);
-        return data;
-      } catch (error) {
-        return Promise.reject(error);
-      }
-    },
     async logout() {
       try {
         const { data } = await apiClient.get(
           "/auth/logout",
         );
           setTimeout(()=> {this.setUser(null)},1000)
+        return data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
+    },
+    async getSelfInfo() {
+      try {
+        const { data } = await apiClient("/self");
+        console.log("data :>> ", data);
+        this.setUser(data);
         return data;
       } catch (error) {
         return Promise.reject(error);

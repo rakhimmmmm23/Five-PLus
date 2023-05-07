@@ -9,7 +9,7 @@
           >Баланс: {{ balance }}</span
         >
         </div>
-      <router-link to="/">
+      <router-link :to="routePath()">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />
         </div>
@@ -34,7 +34,7 @@
           >История
         </span></router-link
       >
-      <router-link to="/support" class="nav-link"
+      <router-link to="/support" class="nav-link" v-if="user.user_type !== 'Admin'"
         ><img src="@/assets/img/support.png" alt="" /><span
           >Поддержка</span
         ></router-link
@@ -45,7 +45,12 @@
           >Чат</span
         ></router-link
       >
-      <router-link to="/settings" class="nav-link" v-if="user.user_type === 'Teacher'"
+      <router-link to="/role" class="nav-link" v-if="user.user_type === 'Admin'"
+        ><img src="@/assets/img/support.png" alt="" /><span
+          >Выдача ролей</span
+        ></router-link
+      >
+      <router-link to="/settings" class="nav-link" v-if="user.user_type === 'Admin'"
         ><img src="@/assets/img/support.png" alt="" /><span
           >Настройки</span
         ></router-link
@@ -56,7 +61,7 @@
           >Работа</span
         ></router-link
       >
-      <router-link to="#" @click="logout" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'|| user.user_type === 'General'"
+      <router-link to="#" @click="logout" class="nav-link"
         ><img src="@/assets/img/exit.png" alt="" /><span
           >Выйти</span
         ></router-link
@@ -93,6 +98,13 @@ export default {
     async logout(){
        await this.authStore.logout()
        this.$router.push({ path: '/login' })
+    },
+    routePath() {
+      if(this.user.user_type === 'Admin') {
+        return '/role'
+      } else {
+        return '/'
+      }
     }
   },
   computed: {
