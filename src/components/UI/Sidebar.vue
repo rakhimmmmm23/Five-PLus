@@ -1,71 +1,43 @@
 <template>
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
-        <div class="minuts">
-          <span v-if="user.user_type === 'Child'"
-          >Моя квота {{ minuts }}</span
-        >
-        <span v-if="user.user_type === 'General'"
-          >Баланс: {{ balance }}</span
-        >
-        </div>
+      <div class="minuts">
+        <span v-if="user.user_type === 'Child'">Моя квота {{ minuts }}</span>
+        <span v-if="user.user_type === 'General'">Баланс: {{ balance }}</span>
+      </div>
       <router-link to="/">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />
         </div>
       </router-link>
-      <router-link v-if="user.user_type === 'General'" to="/" class="nav-link" 
-        ><img src="@/assets/img/profileimg.png" alt="" /><span
-          >Профиль</span
-        ></router-link
-      >
-      <router-link to="/mychilds" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/motherandchild.png" alt="" /><span
-          >Мои дети</span
-        ></router-link
-      >
-      <router-link to="/balance" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/wallet.png" alt="" /><span
-          >Баланс</span
-        ></router-link
-      >
-      <router-link to="/history" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'" 
-        ><img src="@/assets/img/time.png" alt="" /><span
-          >История
-        </span></router-link
-      >
-      <router-link to="/support" class="nav-link"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Поддержка</span
-        ></router-link
-      >
-  
-      <router-link to="/chat" class="nav-link" v-if="user.user_type === 'Child' || user.user_type ===  'Teacher'"
-              ><img src="@/assets/img/support.png" alt="" /><span
-          >Чат</span
-        ></router-link
-      >
-      <router-link to="/settings" class="nav-link" v-if="user.user_type === 'Teacher'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Настройки</span
-        ></router-link
-      >
-  
-      <router-link to="/work" class="nav-link" v-if="user.user_type === 'Teacher'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Работа</span
-        ></router-link
-      >
-      <router-link to="#" @click="logout" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'|| user.user_type === 'General'"
-        ><img src="@/assets/img/exit.png" alt="" /><span
-          >Выйти</span
-        ></router-link
-      >
-      <router-link to="/teacher" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/teacher.png" alt="" /><span
-          >Стать учителем
-        </span></router-link
-      >
+      <router-link v-if="user.user_type === 'General' || user.user_type === 'Child' || user.user_type === 'Teacher'"
+        to="/" class="nav-link"><img src="@/assets/img/profileimg.png" alt="" /><span>Профиль</span></router-link>
+      <router-link to="/mychilds" class="nav-link" v-if="user.user_type === 'General'"><img
+          src="@/assets/img/motherandchild.png" alt="" /><span>Мои дети</span></router-link>
+      <router-link to="/chat" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'"><img
+          src="@/assets/img/chat.png" alt="" /><span>Чат</span></router-link>
+      <router-link to="/history" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'"><img
+          src="@/assets/img/time.png" alt="" /><span>История
+        </span></router-link>
+
+      <router-link to="/balance" class="nav-link" v-if="user.user_type === 'General'"><img src="@/assets/img/wallet.png"
+          alt="" /><span>Баланс</span></router-link>
+
+      <router-link to="/support" class="nav-link"><img src="@/assets/img/support.png"
+          alt="" /><span>Поддержка</span></router-link>
+
+
+      <router-link to="/settings" class="nav-link" v-if="user.user_type === 'Teacher'"><img
+          src="@/assets/img/settings.png" alt="" /><span>Настройки</span></router-link>
+
+      <router-link to="/work" class="nav-link" v-if="user.user_type === 'Teacher'"><img src="@/assets/img/working.png"
+          alt="" /><span>Работа</span></router-link>
+      <router-link to="#" @click="logout" class="nav-link"
+        v-if="user.user_type === 'Child' || user.user_type === 'Teacher' || user.user_type === 'General'"><img
+          src="@/assets/img/exit.png" alt="" /><span>Выйти</span></router-link>
+      <router-link to="/teacher" class="nav-link" v-if="user.user_type === 'General'"><img src="@/assets/img/teacher.png"
+          alt="" /><span>Стать учителем
+        </span></router-link>
     </div>
   </div>
 </template>
@@ -85,14 +57,15 @@ export default {
   },
   data() {
     return {
-      balance:505,
-      minuts:505,
+      balance: 505,
+      minuts: 505,
     };
   },
-  methods:{
-    async logout(){
-       await this.authStore.logout()
-       this.$router.push({ path: '/login' })
+  methods: {
+
+    async logout() {
+      await this.authStore.logout()
+      this.$router.push({ path: '/login' })
     }
   },
   computed: {
@@ -123,11 +96,12 @@ export default {
   margin-left: 15px;
 }
 
-.minuts{
-  color:#fff;
+.minuts {
+  color: #fff;
   font-size: 18px;
   margin-bottom: 20px;
-  background-color: rgb(46 45 54);;
+  background-color: rgb(46 45 54);
+  ;
   position: fixed;
   top: 0;
   display: flex;
@@ -160,8 +134,7 @@ router-link a {
   text-decoration: none !important;
 }
 
-@media (max-width: 2560px) {
-}
+@media (max-width: 2560px) {}
 
 @media (max-width: 1500px) {
   .nav-link {

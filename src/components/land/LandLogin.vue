@@ -3,7 +3,7 @@
     <div class="login-container">
       <router-link to="/">
         <div class="logo">
-        <img src="@/assets/img/logo.png" class="logo-img" alt="" /> 
+          <img src="@/assets/img/logo.png" class="logo-img" alt="" />
         </div>
       </router-link>
       <div class="login-title">Авторизация</div>
@@ -22,12 +22,17 @@
 import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import FormInput from "@/components/form/Forminput.vue";
 import { useAuthStore } from "@/stores/auth/AuthStore";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+import { required, email, minLength } from '@vuelidate/validators'
+import useValidate from '@vuelidate/core'
 export default {
   setup() {
     const authStore = useAuthStore()
 
     return {
-      authStore
+      authStore, v$: useValidate(),
+
     }
   },
   data() {
@@ -45,14 +50,20 @@ export default {
   methods: {
     async submitHandler() {
       try {
-        await this.authStore.login(this.form)
+        const res = await this.authStore.login(this.form)
+
         const user = await this.authStore.getSelfInfo()
         if (user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
         this.$router.push({ name: "Profile" })
       } catch (error) {
-        console.log('Login submitHandler error :>> ', error);
+        console.log('Login submitHandler error :>> ');
+        return toast.error(error.response.data.message
+          , {
+            autoClose: 1000,
+            theme: "dark",
+          });
       }
     }
   }
