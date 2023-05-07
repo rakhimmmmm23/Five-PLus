@@ -86,7 +86,8 @@ export default {
   color: #9b3e3e;
   font-size: 14px;  
   display: flex;
-  justify-content: end;
+  justify-content: start;
+  margin-top: 8px;
 }
 
 .login {
