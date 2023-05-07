@@ -3,10 +3,10 @@
     <div class="nav">
         <div class="minuts">
           <span v-if="user.user_type === 'Child'"
-          >Остаток Минут: {{ minuts }}</span
+          >Моя квота {{ minuts }}</span
         >
         <span v-if="user.user_type === 'General'"
-          >Остаток Баланса: {{ balance }}</span
+          >Баланс: {{ balance }}</span
         >
         </div>
       <router-link to="/">
@@ -40,7 +40,7 @@
         ></router-link
       >
   
-      <router-link to="/chat" class="nav-link" v-if="user.user_type === 'Child' || user.user_type ===  'Teacher'|| user.user_type ===  'General'"
+      <router-link to="/chat" class="nav-link" v-if="user.user_type === 'Child' || user.user_type ===  'Teacher'"
               ><img src="@/assets/img/support.png" alt="" /><span
           >Чат</span
         ></router-link
@@ -85,8 +85,8 @@ export default {
   },
   data() {
     return {
-      minuts:20,
-      balance:20,
+      balance:505,
+      minuts:505,
     };
   },
   methods:{
@@ -127,8 +127,7 @@ export default {
   color:#fff;
   font-size: 18px;
   margin-bottom: 20px;
-  background-color: rgb(24, 23, 28);
-
+  background-color: rgb(46 45 54);;
   position: fixed;
   top: 0;
   display: flex;
