@@ -8,8 +8,9 @@
       </router-link>
       <div class="login-title">Авторизация</div>
       <div class="inputs">
-        <form-input v-model="form.username" placeholder="ВВЕДИТЕ USERNAME" type="email"></form-input>
-        <form-input v-model="form.password" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
+        <form-input v-model="v$.form.username.$model" placeholder="Введите электронную почту или логин"
+          type="email"></form-input>
+        <form-input v-model="v$.form.password.$model" placeholder="Введите пароль" type="password"></form-input>
       </div>
       <SaveBtn @click="submitHandler">Продолжить</SaveBtn>
       <router-link to="/register">
@@ -26,12 +27,21 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { required, email, minLength } from '@vuelidate/validators'
 import useValidate from '@vuelidate/core'
+
 export default {
+  validations: {
+    email: {
+      required,
+      email,
+    },
+  },
   setup() {
+
     const authStore = useAuthStore()
 
     return {
       authStore, v$: useValidate(),
+
 
     }
   },
@@ -49,10 +59,13 @@ export default {
   },
   methods: {
     async submitHandler() {
-      try {
-        const res = await this.authStore.login(this.form)
+      this.v$.$reset()
 
-        const user = await this.authStore.getSelfInfo()
+      try {
+        if (!this.v$.$invalid) {
+          const res = await this.authStore.login(this.form)
+          const user = await this.authStore.getSelfInfo()
+        }
         if (user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
@@ -66,7 +79,15 @@ export default {
           });
       }
     }
-  }
+  },
+  validations() {
+    return {
+      form: {
+        username: { required },
+        password: { required },
+      }
+    }
+  },
 };
 </script>
 <style scoped>
