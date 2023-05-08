@@ -81,9 +81,11 @@ export default {
     async submitHandler() {
       console.log("in");
       try {
-
-        console.log("authStore :>> ", this.authStore);
-        const res = await this.authStore.register(this.form);
+        const user = await this.authStore.getSelfInfo()
+        if (user.user_type === 'Admin') {
+          return this.$router.push({ name: 'Role' })
+        }
+        this.$router.push({ name: "Profile" })
       } catch (error) {
         console.log(
           "Register submitHandler error data:>> ",
