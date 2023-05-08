@@ -79,10 +79,13 @@ export default {
   },
   methods: {
     async submitHandler() {
-      console.log("in");
+      this.v$.$reset()
       try {
-        await this.authStore.register(this.form)
-        const user = await this.authStore.getSelfInfo()
+        console.log(this.v$.$invalid)
+        if(!this.v$.$invalid) {
+          await this.authStore.register(this.form)
+          const user = await this.authStore.getSelfInfo()
+        }
         if (user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }

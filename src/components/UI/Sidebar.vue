@@ -2,112 +2,52 @@
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
       <div class="minuts">
-        <span v-if="user.user_type === 'Child'">Моя квота {{ minuts }}</span>
-        <span v-if="user.user_type === 'General'">Баланс: {{ balance }}</span>
+        <span v-if="authStore.user.user_type === 'Child'">Моя квота {{ minutes }}</span>
+        <span v-if="authStore.user.user_type === 'General'">Баланс: {{ balance }}</span>
       </div>
-      <router-link to="/">
+      
+      <router-link :to="routePath()">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />
         </div>
       </router-link>
-      <router-link v-if="user.user_type === 'General'" to="/" class="nav-link" 
-        ><img src="@/assets/img/profileimg.png" alt="" /><span
-          >Профиль</span
-        ></router-link
-      >
-      <router-link to="/mychilds" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/motherandchild.png" alt="" /><span
-          >Мои дети</span
-        ></router-link
-      >
-      <router-link to="/balance" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/wallet.png" alt="" /><span
-          >Баланс</span
-        ></router-link
-      >
-      <router-link to="/history" class="nav-link" v-if="user.user_type === 'Child' || user.user_type === 'Teacher'" 
-        ><img src="@/assets/img/time.png" alt="" /><span
-          >История
-        </span></router-link
-      >
-      <router-link to="/support" class="nav-link" v-if="user.user_type !== 'Admin'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Поддержка</span
-        ></router-link
-      >
-  
-      <router-link to="/chat" class="nav-link" v-if="user.user_type === 'Child' || user.user_type ===  'Teacher'"
-              ><img src="@/assets/img/support.png" alt="" /><span
-          >Чат</span
-        ></router-link
-      >
-      <router-link to="/role" class="nav-link" v-if="user.user_type === 'Admin'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Выдача ролей</span
-        ></router-link
-      >
-      <router-link to="/settings" class="nav-link" v-if="user.user_type === 'Admin'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Настройки</span
-        ></router-link
-      >
-  
-      <router-link to="/work" class="nav-link" v-if="user.user_type === 'Teacher'"
-        ><img src="@/assets/img/support.png" alt="" /><span
-          >Работа</span
-        ></router-link
-      >
-      <router-link to="#" @click="logout" class="nav-link"
-        ><img src="@/assets/img/exit.png" alt="" /><span
-          >Выйти</span
-        ></router-link
-      >
-      <router-link to="/teacher" class="nav-link" v-if="user.user_type === 'General'" 
-        ><img src="@/assets/img/teacher.png" alt="" /><span
-          >Стать учителем
-        </span></router-link
-      >
+
+      <template v-for="link in NAVIGATION_LINKS" :key="link.path">
+        <router-link v-if="link.permissions.includes(authStore.user.user_type)" :to="link.path" class="nav-link">
+          <img :src="link.imgSrc.default" alt="" />
+          <span>{{ link.title }}</span>
+        </router-link>
+      </template>
+
+      <router-link to="#" @click="logout" class="nav-link"><img src="@/assets/img/exit.png"
+          alt="" /><span>Выйти</span></router-link>
     </div>
   </div>
 </template>
 
-<script>
-import { useAuthStore } from "@/stores/auth/AuthStore";
-import { mapState } from "pinia";
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from "@/stores/auth/AuthStore.js";
+import { NAVIGATION_LINKS } from '@/common/constants'
 
-export default {
-  name: "sidebar",
-  setup() {
-    const authStore = useAuthStore();
+const authStore = useAuthStore();
 
-    return {
-      authStore,
-    };
-  },
-  data() {
-    return {
-      balance: 505,
-      minuts: 505,
-    };
-  },
-  methods:{
-    async logout(){
-       await this.authStore.logout()
-       this.$router.push({ path: '/login' })
-    },
-    routePath() {
-      if(this.user.user_type === 'Admin') {
-        return '/role'
-      } else {
-        return '/'
-      }
-    }
-  },
-  computed: {
-    ...mapState(useAuthStore, ["user"]),
+const balance = ref(505)
+const minutes = ref(505)
 
-  },
-};
+async function logout() {
+  await authStore.logout()
+  this.$router.push({ path: '/login' })
+}
+
+function routePath() {
+  if (authStore.user.user_type === 'Admin') {
+    return '/role'
+  } else {
+    return '/'
+  }
+}
+
 </script>
 
 <style scoped>
@@ -136,7 +76,6 @@ export default {
   font-size: 18px;
   margin-bottom: 20px;
   background-color: rgb(46 45 54);
-  ;
   position: fixed;
   top: 0;
   display: flex;
@@ -147,7 +86,6 @@ export default {
   right: 0;
   height: 50px;
 }
-
 
 .nav-link img {
   width: 30px;
