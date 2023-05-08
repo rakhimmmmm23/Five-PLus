@@ -82,7 +82,7 @@ export default {
       this.v$.$reset()
       try {
         console.log(this.v$.$invalid)
-        if(!this.v$.$invalid) {
+        if (!this.v$.$invalid) {
           await this.authStore.register(this.form)
           const user = await this.authStore.getSelfInfo()
         }
