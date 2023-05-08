@@ -9,20 +9,21 @@
       <div class="login-title">Cоздайте аккаунт</div>
 
       <div class="inputs">
-      
-        <form-input v-model="form.userName" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
-        <div class="red-alert" v-if="form.userName.length < 4">
-          * Юзернейм не менее 4 символов!
+        <form-input v-model="v$.form.userName.$model" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
+        <div v-for="(error, index) of v$.form.userName.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
         </div>
         <form-input v-model="form.name" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
-        <form-input v-model="form.email" placeholder="ВВЕДИТЕ EMAIL" type="email"></form-input>
-        <form-input v-model="form.password" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
-        <div class="red-alert" v-if="form.password.length < 7">
-          * Пароль не менее 7 символов!
+        <form-input v-model="v$.form.email.$model" placeholder="ВВЕДИТЕ EMAIL" type="email"></form-input>
+        <div v-for="(error, index) of v$.form.email.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
+        <form-input v-model="v$.form.password.$model" placeholder="ВВЕДИТЕ ПАРОЛЬ" type="password"></form-input>
+        <div v-for="(error, index) of v$.form.password.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
         </div>
       </div>
       <save-btn @click="submitHandler">Создать</save-btn>
-
       <router-link to="/login">
         <div href="#" class="have-account">Уже есть аккаунт?</div>
       </router-link>
@@ -35,12 +36,21 @@ import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { useAuthStore } from "@/stores/auth/AuthStore";
+import { required, email, minLength } from '@vuelidate/validators'
+import useValidate from '@vuelidate/core'
 export default {
+  validations: {
+    email: {
+      required,
+      email,
+    },
+  },
   setup() {
     const authStore = useAuthStore();
 
     return {
       authStore,
+      v$: useValidate(),
     };
   },
   data() {
@@ -53,6 +63,16 @@ export default {
       },
     };
   },
+  validations() {
+    return {
+      form: {
+        userName: { required, minLength: minLength(4) },
+        name: { required },
+        password: { required, minLength: minLength(7) },
+        email: { required, email },
+      }
+    }
+  },
   components: {
     FormInput,
     SaveBtn,
@@ -60,18 +80,19 @@ export default {
   methods: {
     async submitHandler() {
       console.log("in");
-
       try {
-        console.log("authStore :>> ", this.authStore);
-        await this.authStore.register(this.form);
         const user = await this.authStore.getSelfInfo()
         if (user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
         this.$router.push({ name: "Profile" })
       } catch (error) {
-        console.log("Register submitHandler error :>> ", error);
-        return toast.error("Ошибка", {
+        console.log(
+          "Register submitHandler error data:>> ",
+          error.response.data.message
+        );
+        return toast.error(error.response.data.message
+          , {
             autoClose: 1000,
             theme: "dark",
           });
@@ -89,7 +110,7 @@ export default {
 
 .red-alert {
   color: #9b3e3e;
-  font-size: 14px;  
+  font-size: 14px;
   display: flex;
   justify-content: start;
   margin-top: 8px;

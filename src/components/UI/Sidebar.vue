@@ -1,15 +1,11 @@
 <template>
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
-        <div class="minuts">
-          <span v-if="user.user_type === 'Child'"
-          >Моя квота {{ minuts }}</span
-        >
-        <span v-if="user.user_type === 'General'"
-          >Баланс: {{ balance }}</span
-        >
-        </div>
-      <router-link :to="routePath()">
+      <div class="minuts">
+        <span v-if="user.user_type === 'Child'">Моя квота {{ minuts }}</span>
+        <span v-if="user.user_type === 'General'">Баланс: {{ balance }}</span>
+      </div>
+      <router-link to="/">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />
         </div>
@@ -90,8 +86,8 @@ export default {
   },
   data() {
     return {
-      balance:505,
-      minuts:505,
+      balance: 505,
+      minuts: 505,
     };
   },
   methods:{
@@ -135,11 +131,12 @@ export default {
   margin-left: 15px;
 }
 
-.minuts{
-  color:#fff;
+.minuts {
+  color: #fff;
   font-size: 18px;
   margin-bottom: 20px;
-  background-color: rgb(46 45 54);;
+  background-color: rgb(46 45 54);
+  ;
   position: fixed;
   top: 0;
   display: flex;
@@ -172,8 +169,7 @@ router-link a {
   text-decoration: none !important;
 }
 
-@media (max-width: 2560px) {
-}
+@media (max-width: 2560px) {}
 
 @media (max-width: 1500px) {
   .nav-link {
