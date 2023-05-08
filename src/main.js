@@ -11,8 +11,8 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
-views.forEach((component) => {
-  app.component(component.name, component);
+Object.entries(views).forEach(([name, component]) => {
+  app.component(name, component);
 });
 
 app.mount("#app");

@@ -72,7 +72,6 @@ export const useAuthStore = defineStore({
     async getSelfInfo() {
       try {
         const { data } = await apiClient("/self");
-        console.log("data :>> ", data);
         this.setUser(data);
         return data;
       } catch (error) {

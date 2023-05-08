@@ -1,45 +1,43 @@
 <template>
   <header>
-    <header-container>
-      <div class="menu-container">
-        <sidebar></sidebar>
-        <div class="login">
-          <modal-window ref="modal" @user-updated="init"></modal-window>
+    <div class="menu-container">
+      <sidebar></sidebar>
+      <div class="login">
+        <modal-window ref="modal" :form="form" @user-updated="init"></modal-window>
 
-          <div class="login-container">
-            <div class="profile-img">
-              <img src="@/assets/img/default.jpg" class="profile-img" alt="" />
-            </div>
-            <div class="login-title">{{ user.user_name }}</div>
-            <div class="user-info">
-              <div class="user-info__item" v-if="user.user_type === 'Child'">
-                <p>Класс обучения:</p>
-                <p>7</p>
-              </div>
-              <div class="user-info__teacher-item" v-else-if="user.user_type === 'Teacher'">
-                <div>
-                  <p>Классы преподавания:</p>
-                  <p>5</p>
-                </div>
-                <div>
-                  <p>Предметы преподавания:</p>
-                  <p>История</p>
-                </div>
-              </div>
-              <div class="user-info__item">
-              </div>
-            </div>
-            <div class="inputs">
-              <div class="email-text">Email</div>
-              <form-input v-model="email" :placeholder="user.email"></form-input>
-              <div class="email-text">Номер телефона</div>
-              <form-input placeholder="Телефон"></form-input>
-            </div>
-            <SaveBtn @click="changeMail"> Сохранить</SaveBtn>
+        <div class="login-container">
+          <div class="profile-img">
+            <img src="@/assets/img/default.jpg" class="profile-img" alt="" />
           </div>
+          <div class="login-title">{{ user.user_name }}</div>
+          <div class="user-info">
+            <div class="user-info__item" v-if="user.user_type === 'Child'">
+              <p>Класс обучения:</p>
+              <p>7</p>
+            </div>
+            <div class="user-info__teacher-item" v-else-if="user.user_type === 'Teacher'">
+              <div>
+                <p>Классы преподавания:</p>
+                <p>5</p>
+              </div>
+              <div>
+                <p>Предметы преподавания:</p>
+                <p>История</p>
+              </div>
+            </div>
+            <div class="user-info__item">
+            </div>
+          </div>
+          <div class="inputs">
+            <div class="email-text">Email</div>
+            <form-input v-model="form.email" placeholder="Email"></form-input>
+            <div class="email-text">Номер телефона</div>
+            <form-input v-model="form.phone" placeholder="Телефон"></form-input>
+          </div>
+          <SaveBtn @click="changEmail"> Сохранить</SaveBtn>
         </div>
       </div>
-    </header-container>
+    </div>
   </header>
 </template>
 <script>
@@ -60,7 +58,10 @@ export default {
   },
   data() {
     return {
-      email: "",
+      form: {
+        email: "",
+        phone: "",
+      },
     };
   },
 
@@ -74,10 +75,9 @@ export default {
   },
 
   methods: {
-    async changeMail() {
-      console.log(this.email)
+    async changEmail() {
       try {
-        if(this.user.email !== this.email) {
+        if (this.user.email !== this.email || this.user.phone !== this.phone) {
           apiClient.get('/self/confirm/send?thru=email')
           this.$refs.modal.show = true;
         }
@@ -86,8 +86,8 @@ export default {
       }
     },
     init() {
-      console.log('asasdasd')
-      this.email = this.user.email
+      this.form.email = this.user.email
+      this.form.phone = this.user.phone
     }
   },
   beforeMount() {
@@ -229,15 +229,16 @@ router-link a {
   color: #fff;
   font-size: 20px;
 
-  &__item{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
 
   &__teacher-item {
     margin: 5px 0;
+
     div {
       display: flex;
       justify-content: center;
@@ -274,8 +275,7 @@ router-link a {
     width: 35%;
   }
 
-  .menu-container {
-  }
+  .menu-container {}
 
   .nav-link span {
     display: none;
@@ -324,8 +324,7 @@ router-link a {
     font-size: 14px;
   }
 
-  .menu-container {
-  }
+  .menu-container {}
 
   .logo-img {
     margin-left: 8px;
