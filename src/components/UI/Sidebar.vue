@@ -2,7 +2,7 @@
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
       <div class="minuts">
-        <span v-if="authStore.user.user_type === 'Child'">Моя квота {{ minutes }}</span>
+        <div v-if="authStore.user.user_type === 'Child'" class="child-info">Моя квота</div>
         <span v-if="authStore.user.user_type === 'General'">Баланс: {{ balance }}</span>
       </div>
       
@@ -33,7 +33,6 @@ import { NAVIGATION_LINKS } from '@/common/constants'
 const authStore = useAuthStore();
 
 const balance = ref(505)
-const minutes = ref(505)
 
 async function logout() {
   await authStore.logout()
@@ -54,6 +53,12 @@ function routePath() {
 .nav {
   display: flex;
   flex-direction: column;
+}
+.child-info{
+  border: 1px solid #5f5f5f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .nav-link {
