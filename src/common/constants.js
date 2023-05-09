@@ -3,7 +3,7 @@ export const NAVIGATION_LINKS = [
     path: "/",
     title: "Профиль",
     imgSrc: await import("@/assets/img/profile.png"),
-    permissions: ["General"],
+    permissions: ["General", "Teacher", "Child"],
   },
   {
     path: "/mychilds",
@@ -20,13 +20,13 @@ export const NAVIGATION_LINKS = [
   {
     path: "/work",
     title: "Работа",
-    imgSrc: await import("@/assets/img/support.png"),
+    imgSrc: await import("@/assets/img/work.png"),
     permissions: ["Teacher"],
   },
   {
     path: "/chat",
     title: "Чат",
-    imgSrc: await import("@/assets/img/support.png"),
+    imgSrc: await import("@/assets/img/chat.png"),
     permissions: ["Child", "Teacher"],
   },
   {
@@ -50,7 +50,7 @@ export const NAVIGATION_LINKS = [
   {
     path: "/settings",
     title: "Настройки",
-    imgSrc: await import("@/assets/img/support.png"),
+    imgSrc: await import("@/assets/img/settings.png"),
     permissions: ["Admin"],
   },
   {
@@ -59,4 +59,4 @@ export const NAVIGATION_LINKS = [
     imgSrc: await import("@/assets/img/teacher.png"),
     permissions: ["General"],
   },
-]
+];

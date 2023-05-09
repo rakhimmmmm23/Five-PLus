@@ -2,10 +2,10 @@
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
       <div class="minuts">
+        <span v-if="authStore.user.user_type === 'General' || 'Teacher'">Баланс: {{ balance }}</span>
         <div v-if="authStore.user.user_type === 'Child'" class="child-info">Моя квота</div>
-        <span v-if="authStore.user.user_type === 'General'">Баланс: {{ balance }}</span>
       </div>
-      
+
       <router-link :to="routePath()">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />
@@ -28,6 +28,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from "@/stores/auth/AuthStore.js";
+import router from "@/router";
 import { NAVIGATION_LINKS } from '@/common/constants'
 import { useRouter } from 'vue-router';
 

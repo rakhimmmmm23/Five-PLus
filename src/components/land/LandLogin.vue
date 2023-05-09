@@ -86,7 +86,6 @@ export default {
     async submitHandler() {
       this.v$.$validate()
       this.validateEmail()
-      console.log(this.error)
       try {
         console.log(this.form)
         if (!this.v$.$invalid) {
