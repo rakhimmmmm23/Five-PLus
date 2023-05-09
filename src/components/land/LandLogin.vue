@@ -95,6 +95,11 @@ export default {
         if (this.authStore.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
+        toast.success('Успешная регистрация'
+          , {
+            autoClose: 1000,
+            theme: "dark",
+          });
         this.$router.push({ name: "Profile" })
       } catch (error) {
         console.log('Login submitHandler error :>> ');
