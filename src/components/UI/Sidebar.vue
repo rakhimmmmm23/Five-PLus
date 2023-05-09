@@ -2,7 +2,7 @@
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
       <div class="minuts">
-        <span v-if="authStore.user.user_type === 'General' || 'Teacher'">Баланс: {{ balance }}</span>
+        <span v-if="authStore.user.user_type === 'General' || authStore.user.user_type === 'Teacher'">Баланс: {{ balance }}</span>
         <div v-if="authStore.user.user_type === 'Child'" class="child-info">Моя квота</div>
       </div>
 
