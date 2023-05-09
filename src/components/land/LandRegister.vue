@@ -74,7 +74,8 @@ export default {
           minLength: helpers.withMessage('Имя пользователя должно содержать не менее 4 символов', minLength(4))
         },
         name: {
-          required: helpers.withMessage('Пожалуйста, введите ваше имя', required)
+          required: helpers.withMessage('Пожалуйста, введите ваше фамилию и имя', required),
+          minLength: helpers.withMessage('Поле должно содержать не менее 4 символов', minLength(4))
         },
         password: {
           required: helpers.withMessage('Пожалуйста, введите ваш пароль', required),
@@ -96,7 +97,6 @@ export default {
     async submitHandler() {
       this.v$.$validate()
       try {
-        console.log(this.v$.$invalid)
         if (!this.v$.$invalid) {
           await this.authStore.register(this.form)
           await this.authStore.getSelfInfo()
