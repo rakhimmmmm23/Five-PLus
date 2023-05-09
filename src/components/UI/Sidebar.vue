@@ -3,9 +3,9 @@
     <div class="nav">
       <div class="minuts">
         <span v-if="authStore.user.user_type === 'Child'">Моя квота {{ minutes }}</span>
-        <span v-if="authStore.user.user_type === 'General'">Баланс: {{ balance }}</span>
+        <span v-if="authStore.user.user_type === 'General' || 'Teacher'">Баланс: {{ balance }}</span>
       </div>
-      
+
       <router-link :to="routePath()">
         <div class="logo-flex">
           <img src="@/assets/img/logo.png" class="logo-img" alt="" />

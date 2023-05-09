@@ -66,10 +66,21 @@ export default {
   validations() {
     return {
       form: {
-        userName: { required, minLength: minLength(4) },
-        name: { required },
-        password: { required, minLength: minLength(7) },
-        email: { required, email },
+        userName: {
+          required: required(``),
+          minLength: minLength(4, 'Юзернейм должен быть больше 4 символов')
+        },
+        name: {
+          required: required('Поле обьязательное для ввода'),
+        },
+        password: {
+          required: required('Поле обьязательное для ввода'),
+          minLength: minLength(7, 'Пароль должен быть больше 7 символов')
+        },
+        password: {
+          required: required('Поле обьязательное для ввода'),
+          email: email('Похоже это не эмейл')
+        },
       }
     }
   },
