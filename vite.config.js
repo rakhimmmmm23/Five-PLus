@@ -10,6 +10,9 @@ export default defineConfig({
   build: {
     target: 'esnext' //browsers can handle the latest ES features
   },
+  optimizeDeps: {
+    include: ['@vuelidate/core/lib', '@vuelidate/core/lib/validators']
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

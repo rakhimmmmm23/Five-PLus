@@ -9,11 +9,14 @@
       <div class="login-title">Cоздайте аккаунт</div>
 
       <div class="inputs">
-        <form-input v-model="v$.form.userName.$model" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
-        <div v-for="(error, index) of v$.form.userName.$errors" :key="index" class="red-alert">
+        <form-input v-model="v$.form.username.$model" placeholder="ВВЕДИТЕ USERNAME" type="text"></form-input>
+        <div v-for="(error, index) of v$.form.username.$errors" :key="index" class="red-alert">
           <div class="error-msg">{{ error.$message }}</div>
         </div>
-        <form-input v-model="form.name" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
+        <form-input v-model="v$.form.name.$model" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
+        <div v-for="(error, index) of v$.form.name.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
         <form-input v-model="v$.form.email.$model" placeholder="ВВЕДИТЕ EMAIL" type="email"></form-input>
         <div v-for="(error, index) of v$.form.email.$errors" :key="index" class="red-alert">
           <div class="error-msg">{{ error.$message }}</div>
@@ -36,8 +39,8 @@ import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { useAuthStore } from "@/stores/auth/AuthStore";
-import { required, email, minLength } from '@vuelidate/validators'
-import useValidate from '@vuelidate/core'
+import { helpers, required, email, minLength } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
 export default {
   validations: {
     email: {
@@ -50,13 +53,13 @@ export default {
 
     return {
       authStore,
-      v$: useValidate(),
+      v$: useVuelidate(),
     };
   },
   data() {
     return {
       form: {
-        userName: "",
+        username: "",
         name: "",
         password: "",
         email: "",
@@ -66,10 +69,22 @@ export default {
   validations() {
     return {
       form: {
-        userName: { required, minLength: minLength(4) },
-        name: { required },
-        password: { required, minLength: minLength(7) },
-        email: { required, email },
+        username: {
+          required: helpers.withMessage('Пожалуйста, введите ваше имя пользователя', required),
+          minLength: helpers.withMessage('Имя пользователя должно содержать не менее 4 символов', minLength(4))
+        },
+        name: {
+          required: helpers.withMessage('Пожалуйста, введите ваше имя', required)
+        },
+        password: {
+          required: helpers.withMessage('Пожалуйста, введите ваш пароль', required),
+          minLength: helpers.withMessage('Пароль должен содержать не менее 7 символов', minLength(7))
+        },
+        email: {
+          required: helpers.withMessage('Пожалуйста, введите вашу электронную почту', required),
+          email:
+          helpers.withMessage('Пожалуйста, введите корректный адрес электронной почты', email) 
+        }
       }
     }
   },
@@ -79,14 +94,14 @@ export default {
   },
   methods: {
     async submitHandler() {
-      this.v$.$reset()
+      this.v$.$validate()
       try {
         console.log(this.v$.$invalid)
         if (!this.v$.$invalid) {
           await this.authStore.register(this.form)
-          const user = await this.authStore.getSelfInfo()
+          await this.authStore.getSelfInfo()
         }
-        if (user.user_type === 'Admin') {
+        if (this.authStore.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
         this.$router.push({ name: "Profile" })

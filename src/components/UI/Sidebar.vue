@@ -29,14 +29,16 @@
 import { ref } from 'vue'
 import { useAuthStore } from "@/stores/auth/AuthStore.js";
 import { NAVIGATION_LINKS } from '@/common/constants'
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const balance = ref(505)
 
 async function logout() {
   await authStore.logout()
-  this.$router.push({ path: '/login' })
+  router.push({ path: '/login' })
 }
 
 function routePath() {
