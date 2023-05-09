@@ -44,7 +44,7 @@ export default {
   setup() {
     const authStore = useAuthStore()
     return {
-      authStore, 
+      authStore,
       v$: useVuelidate(),
     }
   },
@@ -58,23 +58,23 @@ export default {
     };
   },
   validations() {
-      return {
-        form: {
-          username: {
+    return {
+      form: {
+        username: {
           required: helpers.withMessage('Пожалуйста, введите ваше имя пользователя или почту', required),
         },
-          password: {
+        password: {
           required: helpers.withMessage('Пожалуйста, введите ваш пароль', required),
         },
-        }
       }
-    },
+    }
+  },
   components: {
     SaveBtn,
     FormInput,
   },
   methods: {
-    
+
     validateEmail() {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // регулярное выражение для проверки email
       if (regex.test(this.form.username)) {
@@ -114,6 +114,15 @@ export default {
   margin: 0;
   box-sizing: border-box;
 }
+
+.red-alert {
+  color: #9b3e3e;
+  font-size: 14px;
+  display: flex;
+  justify-content: start;
+  margin-top: 8px;
+}
+
 .red-alert {
   color: #9b3e3e;
   font-size: 14px;
@@ -134,7 +143,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   width: 90%;
   position: absolute;
   top: 50%;
@@ -156,7 +164,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 45%;
-  align-items: center;
 }
 
 .login-input {
@@ -170,7 +177,7 @@ export default {
   text-align: center;
   line-height: 24px;
   background-color: rgb(36, 34, 40);
-  width: 90%;
+  width: 100%;
   transition: width 0.3s ease-in;
   color: #fff;
 }
