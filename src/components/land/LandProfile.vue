@@ -3,7 +3,7 @@
     <div class="menu-container">
       <sidebar></sidebar>
       <div class="login">
-        <modal-window ref="modal" :form="form" @user-updated="init"></modal-window>
+        <modal-window ref="modal" :form="form" @user-updated="updateUserInfo"></modal-window>
 
         <div class="login-container">
           <div class="profile-img">
@@ -43,6 +43,8 @@
 <script>
 import SaveBtn from "@/components/Buttons/SaveBtn.vue";
 import FormInput from "@/components/form/Forminput.vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { useAuthStore } from "@/stores/auth/AuthStore";
 import ModalWindow from "@/components/modals/ConfirmModal.vue";
 import { useProfileStore } from "@/stores/profile/ProfileStore.js";
@@ -77,7 +79,7 @@ export default {
   methods: {
     async changEmail() {
       try {
-        if (this.user.email !== this.email || this.user.phone !== this.phone) {
+        if (this.user.email !== this.form.email || this.user.phone !== this.form.phone) {
           apiClient.get('/self/confirm/send?thru=email')
           this.$refs.modal.show = true;
         }
@@ -88,6 +90,14 @@ export default {
     init() {
       this.form.email = this.user.email
       this.form.phone = this.user.phone
+    },
+    updateUserInfo() {
+      this.form.email = this.user.email
+      this.form.phone = this.user.phone
+      toast.success('Wow so easy!', {
+        autoClose: 1000,
+        theme: "dark",
+      });
     }
   },
   beforeMount() {

@@ -54,10 +54,8 @@ export default {
   },
   methods: {
    async confirmCode () {
-    console.log('this.form', this.form)
       try {
       const res = await apiClient.get(`/self/confirm/token?code=${this.code}&for=universal`)
-      console.log('res', res)
       await this.profileStore.updateProfile(this.form);
       await this.authStore.getSelfInfo()
       this.$emit('userUpdated')
