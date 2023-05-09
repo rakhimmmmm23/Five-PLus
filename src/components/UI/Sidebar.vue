@@ -2,8 +2,8 @@
   <div class="w3-sidebar w3-bar-block">
     <div class="nav">
       <div class="minuts">
-        <span v-if="authStore.user.user_type === 'Child'">Моя квота {{ minutes }}</span>
         <span v-if="authStore.user.user_type === 'General' || 'Teacher'">Баланс: {{ balance }}</span>
+        <div v-if="authStore.user.user_type === 'Child'" class="child-info">Моя квота</div>
       </div>
 
       <router-link :to="routePath()">
@@ -28,16 +28,17 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from "@/stores/auth/AuthStore.js";
+import router from "@/router";
 import { NAVIGATION_LINKS } from '@/common/constants'
 
 const authStore = useAuthStore();
 
 const balance = ref(505)
-const minutes = ref(505)
 
 async function logout() {
   await authStore.logout()
-  this.$router.push({ path: '/login' })
+  console.log('asdasdasd')
+  router.push({ path: '/login' })
 }
 
 function routePath() {
@@ -54,6 +55,12 @@ function routePath() {
 .nav {
   display: flex;
   flex-direction: column;
+}
+.child-info{
+  border: 1px solid #5f5f5f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .nav-link {

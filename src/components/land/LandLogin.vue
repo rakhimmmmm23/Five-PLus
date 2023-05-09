@@ -60,13 +60,14 @@ export default {
   methods: {
     async submitHandler() {
       this.v$.$reset()
-
+      
       try {
         if (!this.v$.$invalid) {
           const res = await this.authStore.login(this.form)
-          const user = await this.authStore.getSelfInfo()
+          await this.authStore.getSelfInfo()
         }
-        if (user.user_type === 'Admin') {
+        console.log(this.authStore.user.user_type)
+        if (this.authStore.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
         this.$router.push({ name: "Profile" })
