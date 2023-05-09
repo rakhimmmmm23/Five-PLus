@@ -84,7 +84,7 @@ export default {
         email: {
           required: helpers.withMessage('Пожалуйста, введите вашу электронную почту', required),
           email:
-          helpers.withMessage('Пожалуйста, введите корректный адрес электронной почты', email) 
+            helpers.withMessage('Пожалуйста, введите корректный адрес электронной почты', email)
         }
       }
     }
@@ -103,8 +103,13 @@ export default {
         }
         if (this.authStore.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
-        }
-        this.$router.push({ name: "Profile" })
+        } this.$router.push({ name: "Profile" })
+        toast.success('Успешная регистрация'
+          , {
+            autoClose: 1000,
+            theme: "dark",
+          });
+
       } catch (error) {
         console.log(
           "Register submitHandler error data:>> ",
