@@ -28,16 +28,15 @@
 <script setup>
 import { ref } from 'vue'
 import { useAuthStore } from "@/stores/auth/AuthStore.js";
-import router from "@/router";
 import { NAVIGATION_LINKS } from '@/common/constants'
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-
+const router = useRouter();
 const balance = ref(505)
 
 async function logout() {
   await authStore.logout()
-  console.log('asdasdasd')
   router.push({ path: '/login' })
 }
 
@@ -48,7 +47,6 @@ function routePath() {
     return '/'
   }
 }
-
 </script>
 
 <style scoped>

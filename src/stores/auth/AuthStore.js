@@ -13,13 +13,13 @@ export const useAuthStore = defineStore({
     setRole(role) {
       this.role = role;
     },
-    async register({ userName, name, email, password }) {
+    async register({ username, name, email, password }) {
       try {
         const { data } = await apiClient.post(
           "/auth/reg",
          
           {
-            user_name: userName,
+            user_name: username,
             name,
             email,
             password,
@@ -36,13 +36,12 @@ export const useAuthStore = defineStore({
         return Promise.reject(error);
       }
     },
-    async login({ username, password }) {
+    async login({ login_by, username, password }) {
       try {
         const { data } = await apiClient.post(
           "/auth/login",
-       
           {
-            login_by: "username",
+            login_by,
             login: username,
             password,
           },

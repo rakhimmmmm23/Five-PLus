@@ -10,7 +10,13 @@
       <div class="inputs">
         <form-input v-model="v$.form.username.$model" placeholder="Введите электронную почту или логин"
           type="email"></form-input>
+        <div v-for="(error, index) of v$.form.username.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
         <form-input v-model="v$.form.password.$model" placeholder="Введите пароль" type="password"></form-input>
+        <div v-for="(error, index) of v$.form.password.$errors" :key="index" class="red-alert">
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
       <SaveBtn @click="submitHandler">Продолжить</SaveBtn>
       <router-link to="/register">
@@ -25,8 +31,8 @@ import FormInput from "@/components/form/Forminput.vue";
 import { useAuthStore } from "@/stores/auth/AuthStore";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { required, email, minLength } from '@vuelidate/validators'
-import useValidate from '@vuelidate/core'
+import { helpers, required, email } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
 
 export default {
   validations: {
@@ -36,37 +42,56 @@ export default {
     },
   },
   setup() {
-
     const authStore = useAuthStore()
-
     return {
-      authStore, v$: useValidate(),
-
-
+      authStore, 
+      v$: useVuelidate(),
     }
   },
   data() {
     return {
       form: {
+        login_by: 'username',
         username: "",
         password: "",
-      }
+      },
     };
   },
+  validations() {
+      return {
+        form: {
+          username: {
+          required: helpers.withMessage('Пожалуйста, введите ваше имя пользователя или почту', required),
+        },
+          password: {
+          required: helpers.withMessage('Пожалуйста, введите ваш пароль', required),
+        },
+        }
+      }
+    },
   components: {
     SaveBtn,
     FormInput,
   },
   methods: {
+    
+    validateEmail() {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // регулярное выражение для проверки email
+      if (regex.test(this.form.username)) {
+        this.form.login_by = 'email';
+      } else {
+        this.form.login_by = 'username';
+      }
+    },
     async submitHandler() {
-      this.v$.$reset()
-      
+      this.v$.$validate()
+      this.validateEmail()
       try {
+        console.log(this.form)
         if (!this.v$.$invalid) {
-          const res = await this.authStore.login(this.form)
+          await this.authStore.login(this.form)
           await this.authStore.getSelfInfo()
         }
-        console.log(this.authStore.user.user_type)
         if (this.authStore.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         }
@@ -81,14 +106,6 @@ export default {
       }
     }
   },
-  validations() {
-    return {
-      form: {
-        username: { required },
-        password: { required },
-      }
-    }
-  },
 };
 </script>
 <style scoped>
@@ -96,6 +113,13 @@ export default {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+.red-alert {
+  color: #9b3e3e;
+  font-size: 14px;
+  display: flex;
+  justify-content: start;
+  margin-top: 8px;
 }
 
 .login {
