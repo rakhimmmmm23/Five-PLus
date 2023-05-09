@@ -94,7 +94,7 @@ export default {
     updateUserInfo() {
       this.form.email = this.user.email
       this.form.phone = this.user.phone
-      toast.success('Wow so easy!', {
+      toast.success('Изменения успешно сохранены!', {
         autoClose: 1000,
         theme: "dark",
       });
