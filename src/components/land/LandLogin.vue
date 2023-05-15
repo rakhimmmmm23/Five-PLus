@@ -93,11 +93,11 @@ export default {
           await this.authStore.login(this.form)
           await this.authStore.getSelfInfo()
         }
-        if (this.authStore.user.user.user.user_type === 'Admin') {
+        if (this.authStore.user.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
 
         }
-        console.log(this.authStore.user.user.user.user.user_type);
+        console.log(this.authStore.user.user.user_type);
 
         toast.success('Успешный вход'
           , {
