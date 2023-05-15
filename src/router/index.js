@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth/AuthStore";
-import DefaultLayout from '@/layouts/Default.vue'
+import DefaultLayout from "@/layouts/Default.vue";
 
 import Login from "../views/Login.vue";
 import Profile from "../views/Profile.vue";
@@ -10,10 +10,10 @@ import History from "../views/History.vue";
 import Support from "../views/Support.vue";
 import Teacher from "../views/Teacher.vue";
 import Register from "../views/Register.vue";
-import PageNotFound from '@/views/NotFound.vue'
+import PageNotFound from "@/views/NotFound.vue";
 const AuthGuard = (to, from, next) => {
   const authStore = useAuthStore();
-  const role = authStore.user.user_type;
+  const role = authStore.user.user.user_type;
   const requiredRoles = to.meta.roles;
 
   if (!authStore.user) {
@@ -23,20 +23,20 @@ const AuthGuard = (to, from, next) => {
   } else {
     next({ path: "/403" });
   }
-}
+};
 
 const DefaultlayoutMiddleware = async (_to, _from, next) => {
-  const authStore = useAuthStore()
+  const authStore = useAuthStore();
   if (!authStore.user) {
     try {
-      await authStore.getSelfInfo()
+      await authStore.getSelfInfo();
     } catch (error) {
-      next({ name: 'login' })
+      next({ name: "login" });
     }
   }
 
-  next()
-}
+  next();
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,7 +95,7 @@ const router = createRouter({
             roles: ["Admin"],
           },
           beforeEnter: [AuthGuard],
-          component: import('@/views/Settings.vue'),
+          component: import("@/views/Settings.vue"),
         },
         {
           path: "/teacher",

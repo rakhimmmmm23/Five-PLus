@@ -11,11 +11,11 @@
           </div>
           <div class="login-title">{{ user.user_name }}</div>
           <div class="user-info">
-            <div class="user-info__item" v-if="user.user_type === 'Child'">
+            <div class="user-info__item" v-if="user.user.user_type === 'Child'">
               <p>Класс обучения:</p>
               <p>7</p>
             </div>
-            <div class="user-info__teacher-item" v-else-if="user.user_type === 'Teacher'">
+            <div class="user-info__teacher-item" v-else-if="user.user.user_type === 'Teacher'">
               <div>
                 <p>Классы преподавания:</p>
                 <p>5</p>
@@ -34,7 +34,7 @@
             <div class="email-text">Номер телефона</div>
             <form-input v-model="form.phone" placeholder="Телефон"></form-input>
           </div>
-          <SaveBtn @click="changEmail"> Сохранить</SaveBtn>
+          <SaveBtn @click="changEmail">Сохранить</SaveBtn>
         </div>
       </div>
     </div>
@@ -83,6 +83,7 @@ export default {
           apiClient.get('/self/confirm/send?thru=email')
           this.$refs.modal.show = true;
         }
+
       } catch (error) {
         console.log("Login submitHandler error :>> ", error);
       }
