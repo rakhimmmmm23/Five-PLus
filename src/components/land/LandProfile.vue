@@ -9,7 +9,7 @@
           <div class="profile-img">
             <img src="@/assets/img/default.jpg" class="profile-img" alt="" />
           </div>
-          <div class="login-title">{{ user.user_name }}</div>
+          <div class="login-title">{{ user.user.user_name }}</div>
           <div class="user-info">
             <div class="user-info__item" v-if="user.user.user_type === 'Child'">
               <p>Класс обучения:</p>
