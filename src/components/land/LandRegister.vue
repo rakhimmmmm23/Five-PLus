@@ -13,7 +13,7 @@
         <div v-for="(error, index) of v$.form.username.$errors" :key="index" class="red-alert">
           <div class="error-msg">{{ error.$message }}</div>
         </div>
-        <form-input v-model="v$.form.name.$model" placeholder="ВВЕДИТЕ ИМЯ" type="text"></form-input>
+        <form-input v-model="v$.form.name.$model" placeholder="ВВЕДИТЕ ФАМИЛИЮ И ИМЯ" type="text"></form-input>
         <div v-for="(error, index) of v$.form.name.$errors" :key="index" class="red-alert">
           <div class="error-msg">{{ error.$message }}</div>
         </div>
@@ -101,7 +101,7 @@ export default {
           await this.authStore.register(this.form)
           await this.authStore.getSelfInfo()
         }
-        if (this.authStore.user.user_type === 'Admin') {
+        if (this.authStore.user.user.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
         } this.$router.push({ name: "Profile" })
         toast.success('Успешная регистрация'

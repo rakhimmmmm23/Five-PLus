@@ -85,6 +85,7 @@ export default {
     },
     async submitHandler() {
       this.v$.$validate()
+
       this.validateEmail()
       try {
         console.log(this.form)
@@ -92,10 +93,13 @@ export default {
           await this.authStore.login(this.form)
           await this.authStore.getSelfInfo()
         }
-        if (this.authStore.user.user_type === 'Admin') {
+        if (this.authStore.user.user.user.user_type === 'Admin') {
           return this.$router.push({ name: 'Role' })
+
         }
-        toast.success('Успешная регистрация'
+        console.log(this.authStore.user.user.user.user.user_type);
+
+        toast.success('Успешный вход'
           , {
             autoClose: 1000,
             theme: "dark",
