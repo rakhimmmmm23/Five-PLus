@@ -10,12 +10,12 @@ export const useProfileStore = defineStore({
 
       const payload = []
 
-      if (form.email !== authStore.user.email) {
+      if (form.email !== authStore.user.user.email) {
         let operation = 'change'
 
         if (!form.email) {
           operation = 'delete'
-        } else if (!authStore.user.email) {
+        } else if (!authStore.user.user.email) {
           operation = 'add'
         }
 
@@ -26,12 +26,12 @@ export const useProfileStore = defineStore({
         })
       }
 
-      if (form.phone !== authStore.user.phone) {
+      if (form.phone !== authStore.user.user.phone) {
         let operation = 'change'
 
         if (!form.phone) {
           operation = 'delete'
-        } else if (!authStore.user.phone) {
+        } else if (!authStore.user.user.phone) {
           operation = 'add'
         }
 

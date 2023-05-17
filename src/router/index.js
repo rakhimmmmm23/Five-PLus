@@ -17,10 +17,12 @@ const AuthGuard = (to, from, next) => {
   const requiredRoles = to.meta.roles;
 
   if (!authStore.user) {
+    console.log('sdfsffff', authStore.user)
     next({ path: "/login" });
   } else if (!requiredRoles || requiredRoles.includes(role)) {
     next();
   } else {
+    console.log('sdfsffff', authStore.user) 
     next({ path: "/403" });
   }
 };

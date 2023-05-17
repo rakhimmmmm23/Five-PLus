@@ -84,6 +84,7 @@ export default {
       }
     },
     async submitHandler() {
+      console.log('asdasdasd', this.authStore.user);
       this.v$.$validate()
 
       this.validateEmail()
@@ -97,7 +98,7 @@ export default {
           return this.$router.push({ name: 'Role' })
 
         }
-        console.log(this.authStore.user.user.user_type);
+        console.log(this.authStore.user);
 
         toast.success('Успешный вход'
           , {

@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="title">404</div>
+    <div @click="getInfo" class="title">404</div>
     <div class="not-found">Страница не найдена</div>
     <router-link to="/"> <GradientBtn>На главную</GradientBtn></router-link>
   </header>
@@ -8,13 +8,25 @@
 
 <script>
 import GradientBtn from "@/components/Buttons/GradientBtn.vue";
+import { useAuthStore } from "../stores/auth/AuthStore";
 export default {
+  setup() {
+    const authStore = useAuthStore()
+    return {
+      authStore,
+    }
+  },
   data() {
     return {};
   },
   components: {
     GradientBtn,
   },
+  methods: {
+    getInfo() {
+      console.log(this.authStore.user)
+    }
+  }
 };
 </script>
 <style scoped>

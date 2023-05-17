@@ -79,7 +79,7 @@ export default {
   methods: {
     async changEmail() {
       try {
-        if (this.user.email !== this.form.email || this.user.phone !== this.form.phone) {
+        if (this.user.user.email !== this.form.email || this.user.user.phone !== this.form.phone) {
           apiClient.get('/self/confirm/send?thru=email')
           this.$refs.modal.show = true;
         }
@@ -89,12 +89,12 @@ export default {
       }
     },
     init() {
-      this.form.email = this.user.email
-      this.form.phone = this.user.phone
+      this.form.email = this.user.user.email
+      this.form.phone = this.user.user.phone
     },
     updateUserInfo() {
-      this.form.email = this.user.email
-      this.form.phone = this.user.phone
+      this.form.email = this.user.user.email
+      this.form.phone = this.user.user.phone
       toast.success('Изменения успешно сохранены!', {
         autoClose: 1000,
         theme: "dark",
