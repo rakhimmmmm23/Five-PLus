@@ -5,8 +5,16 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     user: null,
+    token: "",
+    expire: ""
   }),
   actions: {
+    setToken(token) {
+      this.token = token;
+    },
+    setExpire(exp) {
+      this.expire = exp;
+    },
     setUser(user) {
       this.user = user;
     },
@@ -52,6 +60,8 @@ export const useAuthStore = defineStore({
           }
          
         );
+        this.setToken(data.token)
+        this.setExpire(data.expire)
         return data;
       } catch (error) {
         return Promise.reject(error);
@@ -61,16 +71,31 @@ export const useAuthStore = defineStore({
       try {
         const { data } = await apiClient.get(
           "/auth/logout",
+            {},
+            {
+              headers: {
+                Authorization: "Bearer "+this.token,
+              },
+            }
+
         );
           setTimeout(()=> {this.setUser(null)},1000)
         return data;
       } catch (error) {
         return Promise.reject(error);
       }
+      this.setToken("")
     },
     async getSelfInfo() {
       try {
-        const { data } = await apiClient("/self");
+        const { data } = await apiClient.get(
+            "/self",
+            {},
+            {
+              headers: {
+                Authorization: "Bearer "+this.token,
+              },
+            });
         this.setUser(data);
         return data;
       } catch (error) {

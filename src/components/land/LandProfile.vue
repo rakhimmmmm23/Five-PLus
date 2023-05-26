@@ -54,8 +54,10 @@ import { apiClient } from '@/plugins/apiClient';
 export default {
   setup() {
     const profileStore = useProfileStore()
+    const authStore = useAuthStore()
     return {
-      profileStore
+      profileStore,
+      authStore,
     }
   },
   data() {
@@ -80,7 +82,12 @@ export default {
     async changEmail() {
       try {
         if (this.user.email !== this.form.email || this.user.phone !== this.form.phone) {
-          apiClient.get('/self/confirm/send?thru=email')
+          apiClient.get('/self/confirm/send?thru=email',  {},
+              {
+                headers: {
+                  Authorization: "Bearer " + this.authStore.token,
+                },
+              })
           this.$refs.modal.show = true;
         }
 

@@ -43,7 +43,12 @@ export const useProfileStore = defineStore({
       }
 
       try {
-          const data = await apiClient.put('/self', payload)
+          const data = await apiClient.put('/self', payload,
+              {
+                headers: {
+                  Authorization: "Bearer " + authStore.token,
+                },
+              })
 
           return data
       } catch (error) {
